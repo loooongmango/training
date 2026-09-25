@@ -100,7 +100,6 @@
 <script>
 const wishlist = [
   { t:"小场连续对打 100 个不掉", s:"todo", sl:"待练", n:"目标连续 100 板不失误" },
-  { t:"spacing（站位间距）", s:"sched", sl:"已安排", n:"本周重点 · 发球已在 9/23 练过" },
   { t:"小场击球练习一小时", s:"todo", sl:"待练", n:"" },
 ];
 const boxIcon = { todo:"⬜", sched:"📅", done:"✅" };
@@ -114,7 +113,7 @@ const techLog = {
   "发球":   [{ date:"2026-09-23", title:"晨练", note:"发球 / 接发球练习" }],
   "接发球": [{ date:"2026-09-23", title:"晨练", note:"发球 / 接发球练习" }],
   "正手": [], "反手": [], "截击": [], "高压": [],
-  "Spacing（站位间距）": [], "双打战术": []
+  "Spacing（站位间距）": [{ date:"2026-09-25", title:"晨练", note:"spacing（站位间距）练习" }], "双打战术": []
 };
 const techs = Object.keys(techLog);
 document.getElementById('progress').innerHTML = techs.map(t => {
