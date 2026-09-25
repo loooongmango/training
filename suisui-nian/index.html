@@ -23,6 +23,12 @@
     transition:transform .12s;border-radius:8px}
   .cell:active{transform:scale(1.5)}
   .cell.done{filter:drop-shadow(0 0 3px rgba(255,159,28,.9))}
+  .cell.latest{background:rgba(255,159,28,.20);animation:glowPulse 1.8s ease-in-out infinite}
+  @keyframes glowPulse{
+    0%,100%{filter:drop-shadow(0 0 2px rgba(255,159,28,.7));transform:scale(1)}
+    50%{filter:drop-shadow(0 0 8px rgba(255,159,28,1));transform:scale(1.22)}
+  }
+  .legend{font-size:12px;color:var(--muted);margin-top:8px;display:none}
   @media(max-width:560px){.cell{font-size:14px}}
   .modal{display:none;position:fixed;inset:0;background:rgba(74,55,40,.45);z-index:50;
     align-items:center;justify-content:center;padding:24px}
@@ -64,7 +70,8 @@
   <a class="back" href="../">← 🥭 训练基地</a>
   <div class="hero">
     <h1>💭 碎碎念</h1>
-    <div class="sub">点开一个格子，右边写字，确认就出现在左边的时间轴</div>
+    <div class="sub">点开一个格子，上面写字，确认就出现在下面的时间轴</div>
+    <div class="legend" id="legend">✨ 发光的是最近更新的一格</div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -106,17 +113,28 @@ async function loadNotes(){
   renderGrid();
 }
 
+function lastUpdatedCell(){
+  let best = -1, bestTs = '';
+  for (const k in notes) {
+    const list = notes[k];
+    if (list && list.length && list[0].ts && list[0].ts > bestTs) { bestTs = list[0].ts; best = +k; }
+  }
+  return best;
+}
+
 function renderGrid(){
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
+  const last = lastUpdatedCell();
   CELLS.forEach((e, i) => {
     const b = document.createElement('button');
     const list = notes[i];
-    b.className = 'cell' + (list && list.length ? ' done' : '');
+    b.className = 'cell' + (list && list.length ? ' done' : '') + (i === last ? ' latest' : '');
     b.textContent = e;
     b.onclick = () => openCell(i);
     grid.appendChild(b);
   });
+  document.getElementById('legend').style.display = last >= 0 ? 'block' : 'none';
 }
 
 function cellLabel(i){
