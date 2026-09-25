@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🥭 芒果的训练基地</title>
+<style>
+  :root{
+    --bg:#FFF6EA; --card:#FFFFFF; --mango:#FF9F1C; --mango-deep:#E8830C;
+    --leaf:#6BA368; --text:#4A3728; --muted:#A08B76;
+    --shadow:0 4px 16px rgba(190,135,60,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);
+    font-family:ui-rounded,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    padding:28px 16px 60px;max-width:880px;margin:0 auto}
+  .hero{text-align:center;margin-bottom:24px}
+  .hero img{width:150px;height:auto}
+  .hero h1{font-size:30px;margin-top:6px}
+  .hero .sub{color:var(--muted);font-size:14px;margin-top:6px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:20px;padding:22px 20px;box-shadow:var(--shadow);
+    text-decoration:none;color:var(--text);display:block;transition:transform .15s}
+  .card:active{transform:scale(.97)}
+  .card .emoji{font-size:40px}
+  .card .title{font-size:19px;font-weight:800;margin:10px 0 4px}
+  .card .desc{font-size:13px;color:var(--muted)}
+  .card .meta{display:flex;gap:14px;margin-top:12px;font-size:13px}
+  .card .meta b{color:var(--mango-deep)}
+  .card.more{border:2px dashed #E3D3B8;background:transparent;box-shadow:none;text-align:center}
+  .card.more .title{font-size:16px}
+  .foot{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <img src="assets/mascot.png" alt="芒果和星星">
+    <h1>🥭 芒果的训练基地</h1>
+    <div class="sub">所有训练看板都在这儿，点一张卡片进去</div>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="hyrox/">
+      <div class="emoji">🏋️</div>
+      <div class="title">HYROX 女子双人赛</div>
+      <div class="desc">12 月 4 日 · 洛杉矶 · 搭档 Ivy Ling</div>
+      <div class="meta"><span>⏳ <b id="hyrox-days">--</b> 天</span><span>✅ 覆盖 5/8</span></div>
+    </a>
+    <a class="card" href="tennis/">
+      <div class="emoji">🎾</div>
+      <div class="title">网球双打训练</div>
+      <div class="desc">本周重点：Spacing + 发球</div>
+      <div class="meta"><span>⭐ 已攒 2 颗星</span><span>📋 待练 3 项</span></div>
+    </a>
+    <div class="card more">
+      <div class="emoji">➕</div>
+      <div class="title">更多目标</div>
+      <div class="desc">以后有新的训练目标，卡片加在这里</div>
+    </div>
+  </div>
+
+  <p class="foot">🥭⭐ 两个 Muse / 两人共同维护 · GitHub Pages 自动发布</p>
+
+<script>
+  const race = new Date('2026-12-04T09:00:00-08:00').getTime();
+  document.getElementById('hyrox-days').textContent =
+    Math.max(0, Math.floor((race - Date.now()) / 86400000));
+</script>
+</body>
+</html>

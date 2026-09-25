@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🥭 HYROX 女子双人训练 · 备赛看板</title>
+<style>
+  :root{
+    --bg:#FFF6EA; --card:#FFFFFF; --mango:#FF9F1C; --mango-deep:#E8830C;
+    --leaf:#6BA368; --leaf-bg:#E9F5E4; --star:#FFC93D;
+    --text:#4A3728; --muted:#A08B76; --line:#F0E2CC;
+    --shadow:0 4px 16px rgba(190,135,60,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);
+    font-family:ui-rounded,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    padding:20px 16px 60px;max-width:880px;margin:0 auto}
+  .hero{display:flex;align-items:center;gap:14px;margin-bottom:2px}
+  .hero img{width:104px;height:auto;flex-shrink:0}
+  .hero h1{font-size:25px;line-height:1.35}
+  .hero .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .info{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0 6px}
+  @media(max-width:640px){.info{grid-template-columns:repeat(2,1fr)}}
+  .info .item{background:var(--card);border-radius:16px;padding:10px 12px;box-shadow:var(--shadow)}
+  .info .k{font-size:11px;color:var(--muted)}
+  .info .v{font-size:14px;font-weight:700;margin-top:2px}
+  .countdown{display:flex;gap:10px;margin:16px 0 6px}
+  .cd-box{flex:1;background:var(--card);border-radius:16px;padding:12px 6px;text-align:center;box-shadow:var(--shadow)}
+  .cd-box b{display:block;font-size:28px;color:var(--mango-deep)}
+  .cd-box span{font-size:12px;color:var(--muted)}
+  h2{font-size:18px;margin:26px 0 12px}
+  h2 .pct{font-size:13px;color:var(--muted);font-weight:400}
+  .run-hero{background:linear-gradient(135deg,#FFB627,#FF8A3D);border-radius:18px;padding:18px;
+    color:#fff;box-shadow:var(--shadow);margin-bottom:12px;text-align:center}
+  .run-hero .big{font-size:24px;font-weight:800}
+  .run-hero .small{font-size:13px;opacity:.92;margin-top:4px}
+  .req-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:640px){.req-grid{grid-template-columns:repeat(2,1fr)}}
+  .req{background:var(--card);border-radius:16px;padding:12px 10px;box-shadow:var(--shadow);text-align:center}
+  .req .n{font-size:11px;color:#fff;background:var(--mango);border-radius:10px;display:inline-block;
+    padding:2px 9px;margin-bottom:6px;font-weight:700}
+  .req .name{font-size:14px;font-weight:700}
+  .req .dist{font-size:12px;color:var(--muted);margin-top:3px}
+  .req .wt{font-size:15px;font-weight:800;color:var(--mango-deep);margin-top:3px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .st{border-radius:16px;padding:14px 12px;text-align:center;box-shadow:var(--shadow)}
+  .st.done{background:var(--leaf-bg);border:2px solid #BFE3B4}
+  .st.todo{background:var(--card);border:2px dashed #E3D3B8}
+  .st .mark{font-size:22px}
+  .st .name{font-size:14px;font-weight:700;margin:6px 0 4px}
+  .st .when{font-size:12px;color:var(--muted)}
+  .st.done .when{color:var(--leaf);font-weight:700}
+  .session{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+  .session .date{font-size:15px;font-weight:700}
+  .session .date span{font-size:12px;color:var(--muted);font-weight:400;margin-left:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  .chip{background:#FFF1DC;border-radius:20px;padding:5px 12px;font-size:13px;font-weight:600}
+  .session .remark{font-size:13px;color:var(--muted)}
+  details.scores{margin-top:10px;font-size:13px;color:var(--muted)}
+  details.scores summary{cursor:pointer;font-size:13px}
+  details.scores table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px}
+  details.scores td{padding:6px 8px;border-bottom:1px solid var(--line)}
+  .foot{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+  <a href="../" style="display:inline-block;margin-bottom:8px;color:#E8830C;text-decoration:none;font-size:14px;font-weight:700">← 🥭 训练基地</a>
+  <div class="hero">
+    <img src="../assets/mascot.png" alt="芒果和星星">
+    <div>
+      <h1>🥭 HYROX 女子双人训练</h1>
+      <div class="sub">先看覆盖，再看成绩 · 数据来自训练记录</div>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="item"><div class="k">📅 日期</div><div class="v">12 月 4 日（周五）</div></div>
+    <div class="item"><div class="k">📍 地点</div><div class="v">洛杉矶</div></div>
+    <div class="item"><div class="k">👯 组别</div><div class="v">女子双人</div></div>
+    <div class="item"><div class="k">🤝 搭档</div><div class="v">Ivy Ling</div></div>
+    <div class="item"><div class="k">🏋️ 节奏</div><div class="v">每周一次 @ Bay Club</div></div>
+  </div>
+
+  <div class="countdown">
+    <div class="cd-box"><b id="d">--</b><span>天</span></div>
+    <div class="cd-box"><b id="h">--</b><span>小时</span></div>
+    <div class="cd-box"><b id="m">--</b><span>分钟</span></div>
+    <div class="cd-box"><b id="s">--</b><span>秒</span></div>
+  </div>
+
+  <h2>🏁 比赛要求一览 <span class="pct">每次打开都能看到</span></h2>
+  <div class="run-hero">
+    <div class="big">🏃 跑步总计：8 × 1 km ≈ 5 英里</div>
+    <div class="small">每两个站点之间跑 1 km，全程约 8 公里</div>
+  </div>
+  <div class="req-grid" id="reqs"></div>
+
+  <h2>✅ 训练覆盖 <span class="pct">5 / 8 个站点已练</span></h2>
+  <div class="grid" id="coverage"></div>
+
+  <h2>📝 训练记录 <span class="pct">按合练日期倒序</span></h2>
+  <div id="sessions"></div>
+
+  <p class="foot">🥭⭐ 两个 Muse / 两人共同维护 · 更新只需 push 到仓库，约 1 分钟后页面自动刷新</p>
+
+<script>
+const reqs = [
+  ["1","SkiErg","1094 yd（1000 m）","—"],
+  ["2","Sled Push","55 yd（50 m）","225 lb"],
+  ["3","Sled Pull","55 yd（50 m）","172 lb"],
+  ["4","Burpee Broad Jump","87 yd（80 m）","—"],
+  ["5","Rowing","1094 yd（1000 m）","—"],
+  ["6","Farmers Carry","219 yd（200 m）","2×35 lb"],
+  ["7","Sandbag Lunges","109 yd（100 m）","22 lb"],
+  ["8","Wall Balls","100 次","9 lb"],
+];
+document.getElementById('reqs').innerHTML = reqs.map(r =>
+  `<div class="req"><div class="n">第 ${r[0]} 站</div><div class="name">${r[1]}</div>` +
+  `<div class="dist">${r[2]}</div><div class="wt">${r[3]==='—'?'自重':r[3]}</div></div>`).join('');
+
+const stations = [
+  ["SkiErg", true, "9/15 练过"],
+  ["Sled Push", false, "还没练"],
+  ["Sled Pull", false, "还没练"],
+  ["Burpee Broad Jump", true, "9/15 练过"],
+  ["Rowing", true, "9/15 练过"],
+  ["Farmers Carry", true, "9/15 练过"],
+  ["Sandbag Lunges", false, "还没练"],
+  ["Wall Balls", true, "9/15 练过"],
+];
+document.getElementById('coverage').innerHTML = stations.map(s =>
+  `<div class="st ${s[1]?'done':'todo'}"><div class="mark">${s[1]?'✅':'⬜'}</div>` +
+  `<div class="name">${s[0]}</div><div class="when">${s[2]}</div></div>`).join('');
+
+const sessions = [
+  {
+    date: "2026-09-15", title: "合练",
+    focus: ["SkiErg","Farmers Carry","Burpee Broad Jump","Rowing","Wall Balls"],
+    remark: "覆盖 5 个站点",
+    scores: [["SkiErg","500m"],["农夫行走","30m（我 20 lb / Ivy 50 lb）"],["波比跳","30m"],["药球","我 20 个 / Ivy 50 个"],["划船","我 200m / Ivy 500m"]]
+  }
+];
+document.getElementById('sessions').innerHTML = sessions.map(x =>
+  `<div class="session"><div class="date">${x.date}<span>${x.title}</span></div>` +
+  `<div class="chips">${x.focus.map(f=>`<span class="chip">${f}</span>`).join('')}</div>` +
+  `<div class="remark">${x.remark}</div>` +
+  `<details class="scores"><summary>成绩明细（展开）</summary><table>` +
+  x.scores.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('') +
+  `</table></details></div>`).join('');
+
+const race = new Date('2026-12-04T09:00:00-08:00').getTime();
+function tick(){
+  let t = Math.max(0, race - Date.now())/1000;
+  d.textContent = Math.floor(t/86400);
+  h.textContent = String(Math.floor(t%86400/3600)).padStart(2,'0');
+  m.textContent = String(Math.floor(t%3600/60)).padStart(2,'0');
+  s.textContent = String(Math.floor(t%60)).padStart(2,'0');
+}
+tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>

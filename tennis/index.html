@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🥭🎾 网球双打训练记录</title>
+<style>
+  :root{
+    --bg:#FFF6EA; --card:#FFFFFF; --mango:#FF9F1C; --mango-deep:#E8830C;
+    --leaf:#6BA368; --leaf-bg:#E9F5E4; --star:#FFC93D;
+    --text:#4A3728; --muted:#A08B76; --line:#F0E2CC;
+    --shadow:0 4px 16px rgba(190,135,60,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);
+    font-family:ui-rounded,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    padding:20px 16px 60px;max-width:880px;margin:0 auto}
+  .hero{display:flex;align-items:center;gap:14px;margin-bottom:2px}
+  .hero img{width:104px;height:auto;flex-shrink:0}
+  .hero h1{font-size:25px;line-height:1.35}
+  .hero .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  h2{font-size:18px;margin:26px 0 12px}
+  h2 .pct{font-size:13px;color:var(--muted);font-weight:400}
+  .focus{background:linear-gradient(135deg,#FFB627,#FF8A3D);border-radius:18px;padding:16px 18px;
+    margin:16px 0 6px;box-shadow:var(--shadow);color:#fff}
+  .focus .k{font-size:12px;opacity:.9}
+  .focus .v{font-size:20px;font-weight:800;margin-top:4px}
+  .item{background:var(--card);border-radius:16px;padding:14px 16px;margin-bottom:10px;
+    display:flex;align-items:flex-start;gap:12px;box-shadow:var(--shadow)}
+  .item .box{font-size:20px}
+  .item .body{flex:1}
+  .item .title{font-size:15px;font-weight:700}
+  .item .note{font-size:13px;color:var(--muted);margin-top:4px}
+  .tag{font-size:11px;padding:4px 11px;border-radius:14px;white-space:nowrap;margin-top:2px;font-weight:700}
+  .tag.todo{background:#FFF1DC;color:var(--mango-deep)}
+  .tag.sched{background:#E3F0FF;color:#3B7DD8}
+  .tag.done{background:var(--leaf-bg);color:var(--leaf)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:560px){.grid{grid-template-columns:1fr}}
+  .tech{background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+  .tech .name{font-size:15px;font-weight:700;margin-bottom:10px}
+  .tech .name .count{font-size:12px;color:var(--muted);font-weight:400;margin-left:6px}
+  .stars{font-size:26px;letter-spacing:5px;min-height:34px}
+  .star{cursor:pointer;display:inline-block;transition:transform .15s}
+  .star:active{transform:scale(1.4) rotate(12deg)}
+  .nostar{font-size:13px;color:var(--muted);letter-spacing:0}
+  .empty{background:var(--card);border:2px dashed #E3D3B8;border-radius:16px;padding:22px;
+    text-align:center;color:var(--muted);font-size:14px}
+  .modal{display:none;position:fixed;inset:0;background:rgba(74,55,40,.45);z-index:50;
+    align-items:center;justify-content:center;padding:24px}
+  .modal.open{display:flex}
+  .mbox{background:#FFFDF8;border-radius:20px;padding:22px;max-width:420px;width:100%;
+    box-shadow:0 12px 40px rgba(120,80,30,.25)}
+  .mbox .mtech{font-size:13px;color:var(--mango-deep);font-weight:700}
+  .mbox .mdate{font-size:20px;font-weight:800;margin:6px 0 4px}
+  .mbox .mtitle{font-size:14px;color:var(--muted);margin-bottom:10px}
+  .mbox .mnote{font-size:15px;line-height:1.7;background:var(--bg);border-radius:12px;padding:12px 14px}
+  .mbox button{margin-top:16px;width:100%;padding:12px;border:none;border-radius:14px;
+    background:linear-gradient(135deg,#FFB627,#FF8A3D);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+  .foot{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+  <a href="../" style="display:inline-block;margin-bottom:8px;color:#E8830C;text-decoration:none;font-size:14px;font-weight:700">← 🥭 训练基地</a>
+  <div class="hero">
+    <img src="../assets/mascot.png" alt="芒果和星星">
+    <div>
+      <h1>🎾 网球双打训练记录</h1>
+      <div class="sub">每练一次，得一颗星 · 点击星星看当天记录</div>
+    </div>
+  </div>
+
+  <div class="focus">
+    <div class="k">🎯 本周重点</div>
+    <div class="v">Spacing（站位间距）+ 发球</div>
+  </div>
+
+  <h2>📋 想练清单 <span class="pct">练过就从清单拿掉，变成星星</span></h2>
+  <div id="wishlist"></div>
+
+  <h2>⭐ 训练进度 <span class="pct">星星 = 训练次数，点击看当天反馈</span></h2>
+  <div class="grid" id="progress"></div>
+
+  <h2>🎬 视频资料库</h2>
+  <div id="videos"></div>
+
+  <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="mbox">
+      <div class="mtech" id="mtech"></div>
+      <div class="mdate" id="mdate"></div>
+      <div class="mtitle" id="mtitle"></div>
+      <div class="mnote" id="mnote"></div>
+      <button onclick="closeModal()">关闭</button>
+    </div>
+  </div>
+
+  <p class="foot">🥭⭐ 两个 Muse / 两人共同维护 · 更新只需 push 到仓库，约 1 分钟后页面自动刷新</p>
+
+<script>
+const wishlist = [
+  { t:"小场连续对打 100 个不掉", s:"todo", sl:"待练", n:"目标连续 100 板不失误" },
+  { t:"spacing（站位间距）", s:"sched", sl:"已安排", n:"本周重点 · 发球已在 9/23 练过" },
+  { t:"小场击球练习一小时", s:"todo", sl:"待练", n:"" },
+];
+const boxIcon = { todo:"⬜", sched:"📅", done:"✅" };
+document.getElementById('wishlist').innerHTML = wishlist.map(w =>
+  `<div class="item"><div class="box">${boxIcon[w.s]}</div><div class="body">` +
+  `<div class="title">${w.t}</div>${w.n?`<div class="note">${w.n}</div>`:''}` +
+  `</div><span class="tag ${w.s}">${w.sl}</span></div>`).join('');
+
+// 每项技术：每次训练一条记录，点星星查看
+const techLog = {
+  "发球":   [{ date:"2026-09-23", title:"晨练", note:"发球 / 接发球练习" }],
+  "接发球": [{ date:"2026-09-23", title:"晨练", note:"发球 / 接发球练习" }],
+  "正手": [], "反手": [], "截击": [], "高压": [],
+  "Spacing（站位间距）": [], "双打战术": []
+};
+const techs = Object.keys(techLog);
+document.getElementById('progress').innerHTML = techs.map(t => {
+  const logs = techLog[t];
+  const stars = logs.length
+    ? logs.map((l,i)=>`<span class="star" onclick="openLog('${t}',${i})">⭐</span>`).join('')
+    : `<span class="nostar">☆ 还没练，攒第一颗星</span>`;
+  return `<div class="tech"><div class="name">${t}<span class="count">${logs.length?logs.length+' 次':''}</span></div>` +
+    `<div class="stars">${stars}</div></div>`;
+}).join('');
+
+function openLog(tech, i){
+  const l = techLog[tech][i];
+  document.getElementById('mtech').textContent = "⭐ " + tech;
+  document.getElementById('mdate').textContent = l.date;
+  document.getElementById('mtitle').textContent = l.title;
+  document.getElementById('mnote').textContent = l.note || "（暂无详细反馈）";
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+
+const videos = [];
+document.getElementById('videos').innerHTML = videos.length ? videos.map(v =>
+  `<div class="item"><div class="body"><div class="title"><a href="${v.url}" style="color:var(--mango-deep)">${v.title}</a></div><div class="note">${v.note}</div></div></div>`
+).join('') : `<div class="empty">看到好的教学视频，链接丢进来，附上技术要点 🎬</div>`;
+</script>
+</body>
+</html>
