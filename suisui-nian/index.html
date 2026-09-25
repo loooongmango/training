@@ -7,7 +7,7 @@
 <style>
   :root{
     --bg:#FFF6EA; --mango:#FF9F1C; --mango-deep:#E8830C;
-    --text:#4A3728; --muted:#A08B76;
+    --text:#4A3728; --muted:#A08B76; --line:#F0E2CC;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);
@@ -17,40 +17,45 @@
   .hero{text-align:center;margin-bottom:14px}
   .hero h1{font-size:25px}
   .hero .sub{color:var(--muted);font-size:13px;margin-top:6px}
-  .toolbar{text-align:center;margin-bottom:12px}
-  .toolbar button{padding:9px 22px;border:none;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;
-    background:#fff;color:var(--mango-deep);box-shadow:0 2px 8px rgba(190,135,60,.15)}
-  .toolbar button.on{background:linear-gradient(135deg,#FFB627,#FF8A3D);color:#fff}
   .grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
   .cell{background:none;border:none;font-size:19px;line-height:1;cursor:pointer;
     aspect-ratio:1;display:flex;align-items:center;justify-content:center;
     transition:transform .12s;border-radius:8px}
   .cell:active{transform:scale(1.5)}
-  body.editing .cell{background:#fff;box-shadow:0 1px 4px rgba(190,135,60,.12)}
   .cell.done{filter:drop-shadow(0 0 3px rgba(255,159,28,.9))}
   @media(max-width:560px){.cell{font-size:14px}}
   .modal{display:none;position:fixed;inset:0;background:rgba(74,55,40,.45);z-index:50;
     align-items:center;justify-content:center;padding:24px}
   .modal.open{display:flex}
-  .mbox{background:#FFFDF8;border-radius:20px;padding:22px;max-width:420px;width:100%;
+  .mbox{background:#FFFDF8;border-radius:20px;padding:22px;max-width:520px;width:100%;
     box-shadow:0 12px 40px rgba(120,80,30,.25);text-align:center}
   .mbox .mtech{font-size:13px;color:var(--mango-deep);font-weight:700}
-  .mbox .memoji{font-size:52px;margin:10px 0 4px}
-  .mbox .mtitle{font-size:15px;font-weight:800;margin-bottom:10px;color:var(--muted)}
-  .mbox .mnote{font-size:17px;line-height:1.8;background:var(--bg);border-radius:12px;
-    padding:16px 14px;min-height:80px;white-space:pre-wrap}
-  .mbox .mnote.empty{color:var(--muted)}
-  .mbox textarea{width:100%;min-height:110px;border:2px solid #F0E2CC;border-radius:12px;
-    padding:12px 14px;font-size:16px;font-family:inherit;color:var(--text);background:var(--bg);
-    resize:vertical;margin-top:10px}
-  .mbox textarea:focus{outline:none;border-color:var(--mango)}
-  .btnrow{display:flex;gap:10px;margin-top:16px}
-  .btnrow button{flex:1;padding:12px;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer}
-  .btn-save{background:linear-gradient(135deg,#FFB627,#FF8A3D);color:#fff}
-  .btn-del{background:#fff;color:#c0392b;box-shadow:inset 0 0 0 2px #F3D9D2}
-  .btn-close{width:100%;margin-top:16px;padding:12px;border:none;border-radius:14px;
-    background:linear-gradient(135deg,#FFB627,#FF8A3D);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
-  .btnrow.single button{flex:1}
+  .mbox .mhead{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 12px}
+  .mbox .memoji{font-size:34px}
+  .mbox .mtitle{font-size:15px;font-weight:800;color:var(--muted)}
+  /* 时间轴（左） + 输入（右） */
+  .tm{display:flex;flex-direction:column;gap:14px;text-align:left}
+  .tm-left{border-left:2px solid var(--line);padding-left:14px;
+    max-height:280px;overflow-y:auto}
+  .tm-empty{font-size:13px;color:var(--muted);padding:18px 0}
+  .tm-item{position:relative;margin-bottom:14px}
+  .tm-item:last-child{margin-bottom:2px}
+  .tm-dot{position:absolute;left:-20.5px;top:4px;width:9px;height:9px;border-radius:50%;
+    background:var(--mango);box-shadow:0 0 0 3px #FFF1DC}
+  .tm-time{font-size:11px;color:var(--muted)}
+  .tm-text{font-size:14px;line-height:1.65;margin-top:3px;word-break:break-word;white-space:pre-wrap}
+  .tm-del{float:right;border:none;background:none;color:#d0bfae;font-size:15px;cursor:pointer;padding:0 0 4px 8px}
+  .tm-del:active{color:#c0392b}
+  .tm-del.warn{color:#c0392b;font-size:12px;font-weight:700}
+  .tm-right{display:flex;flex-direction:column;gap:10px}
+  .tm-right textarea{min-height:96px;border:2px solid var(--line);border-radius:12px;
+    padding:12px;font-size:15px;font-family:inherit;color:var(--text);background:var(--bg);resize:none}
+  .tm-right textarea:focus{outline:none;border-color:var(--mango)}
+  .btn-save{padding:12px;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;
+    background:linear-gradient(135deg,#FFB627,#FF8A3D);color:#fff}
+  .btn-save:disabled{opacity:.6}
+  .btn-close{width:100%;margin-top:14px;padding:12px;border:none;border-radius:14px;font-size:15px;font-weight:700;
+    cursor:pointer;background:#fff;color:var(--mango-deep);box-shadow:inset 0 0 0 2px var(--line)}
   .hint{font-size:12px;color:var(--muted);margin-top:10px}
   .foot{margin-top:30px;color:var(--muted);font-size:12px;text-align:center}
 </style>
@@ -59,10 +64,7 @@
   <a class="back" href="../">← 🥭 训练基地</a>
   <div class="hero">
     <h1>💭 碎碎念</h1>
-    <div class="sub" id="heroSub">400 个格子，随便点开一个</div>
-  </div>
-  <div class="toolbar">
-    <button id="editBtn" onclick="toggleEdit()">✏️ 编辑文字</button>
+    <div class="sub">点开一个格子，右边写字，确认就出现在左边的时间轴</div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -70,10 +72,10 @@
   <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
     <div class="mbox">
       <div class="mtech">💭 碎碎念</div>
-      <div class="memoji" id="memoji"></div>
-      <div class="mtitle" id="mtitle"></div>
+      <div class="mhead"><span class="memoji" id="memoji"></span><span class="mtitle" id="mtitle"></span></div>
       <div id="mbody"></div>
-      <div class="hint" id="mhint" style="display:none">token 只保存在这台设备，用于把文字写回仓库</div>
+      <button class="btn-close" onclick="closeModal()">关闭</button>
+      <div class="hint">首次保存会让你粘贴 GitHub token，只保存在这台设备</div>
     </div>
   </div>
 
@@ -84,15 +86,23 @@ const CELLS = ["🥭", "🥭", "🥭", "⭐", "⭐", "⭐", "⭐", "⭐", "⭐",
 
 const REPO = "loooongmango/training";
 const NOTES_PATH = "suisui-nian/notes.json";
-let notes = {};       // {序号: 文字}
-let editMode = false;
+// 每格：[{ts:"2026-09-24 20:45:01", text:"..."}]，新的在前
+let notes = {};
 let currentCell = -1;
+let pendingDel = -1;
 
 async function loadNotes(){
   try {
     const r = await fetch("notes.json?t=" + Date.now());
     if (r.ok) notes = await r.json();
   } catch(e) {}
+  // 兼容旧格式：字符串 → 单条目
+  for (const k in notes) {
+    if (typeof notes[k] === 'string') {
+      const t = notes[k];
+      if (t) notes[k] = [{ts: '', text: t}]; else delete notes[k];
+    }
+  }
   renderGrid();
 }
 
@@ -101,53 +111,54 @@ function renderGrid(){
   grid.innerHTML = '';
   CELLS.forEach((e, i) => {
     const b = document.createElement('button');
-    b.className = 'cell' + (notes[i] ? ' done' : '');
+    const list = notes[i];
+    b.className = 'cell' + (list && list.length ? ' done' : '');
     b.textContent = e;
     b.onclick = () => openCell(i);
     grid.appendChild(b);
   });
 }
 
-function toggleEdit(){
-  editMode = !editMode;
-  document.body.classList.toggle('editing', editMode);
-  const btn = document.getElementById('editBtn');
-  btn.textContent = editMode ? '✅ 完成编辑' : '✏️ 编辑文字';
-  btn.classList.toggle('on', editMode);
-  document.getElementById('heroSub').textContent =
-    editMode ? '点一个格子，直接打字，保存就写进仓库' : '400 个格子，随便点开一个';
-}
-
 function cellLabel(i){
   return '第' + (Math.floor(i / 20) + 1) + '行第' + ((i % 20) + 1) + '个';
 }
 
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function nowTs(){
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + ' ' +
+         p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+}
+
+function timelineHtml(i){
+  const list = notes[i] || [];
+  if (!list.length) return '<div class="tm-empty">还没有碎碎念，来写第一条吧 ✨</div>';
+  return list.map((en, idx) =>
+    '<div class="tm-item"><span class="tm-dot"></span>' +
+    '<button class="tm-del' + (pendingDel === idx ? ' warn' : '') + '" onclick="delEntry(' + idx + ')" title="删除">' +
+    (pendingDel === idx ? '确认删除？' : '×') + '</button>' +
+    (en.ts ? '<div class="tm-time">' + escapeHtml(en.ts) + '</div>' : '') +
+    '<div class="tm-text">' + escapeHtml(en.text) + '</div></div>'
+  ).join('');
+}
+
 function openCell(i){
   currentCell = i;
+  pendingDel = -1;
   document.getElementById('memoji').textContent = CELLS[i];
   document.getElementById('mtitle').textContent = cellLabel(i);
-  const body = document.getElementById('mbody');
-  const hint = document.getElementById('mhint');
-  if (editMode) {
-    hint.style.display = 'block';
-    body.innerHTML =
-      '<textarea id="noteInput" placeholder="写下你的碎碎念…"></textarea>' +
-      '<div class="btnrow"><button class="btn-del" onclick="deleteNote()">删除</button>' +
-      '<button class="btn-save" id="saveBtn" onclick="saveNote()">保存</button></div>';
-    document.getElementById('noteInput').value = notes[i] || '';
-    setTimeout(() => document.getElementById('noteInput').focus(), 100);
-  } else {
-    hint.style.display = 'none';
-    const t = notes[i];
-    body.innerHTML = '<div class="mnote' + (t ? '' : ' empty') + '">' +
-      (t ? escapeHtml(t) : '（空空如也）') + '</div>' +
-      '<button class="btn-close" onclick="closeModal()">关闭</button>';
-  }
+  document.getElementById('mbody').innerHTML =
+    '<div class="tm"><div class="tm-right"><textarea id="noteInput" placeholder="写下你的碎碎念…"></textarea>' +
+    '<button class="btn-save" id="saveBtn" onclick="addEntry()">确认</button></div>' +
+    '<div class="tm-left" id="tmLine">' + timelineHtml(i) + '</div></div>';
   document.getElementById('modal').classList.add('open');
 }
 
-function escapeHtml(s){
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function refreshTimeline(){
+  document.getElementById('tmLine').innerHTML = timelineHtml(currentCell);
 }
 
 function getToken(){
@@ -179,36 +190,63 @@ async function pushNotes(token){
   } catch(e) { return 'net'; }
 }
 
-async function saveNote(){
-  const text = document.getElementById('noteInput').value.trim();
+async function addEntry(){
+  const input = document.getElementById('noteInput');
+  const text = input.value.trim();
+  if (!text) return;
   const token = getToken();
   if (!token) return;
   const btn = document.getElementById('saveBtn');
   btn.textContent = '保存中…'; btn.disabled = true;
-  if (text) notes[currentCell] = text; else delete notes[currentCell];
+  pendingDel = -1;
+  if (!notes[currentCell]) notes[currentCell] = [];
+  notes[currentCell].unshift({ts: nowTs(), text});
   const res = await pushNotes(token);
-  btn.textContent = '保存'; btn.disabled = false;
-  if (res === 'ok') { renderGrid(); closeModal(); }
-  else if (res === 'auth') {
-    localStorage.removeItem('gh_token');
-    alert('token 无效或没有 Contents 读写权限，已清除，请重试并粘贴正确的 token');
+  btn.textContent = '确认'; btn.disabled = false;
+  if (res === 'ok') { input.value = ''; refreshTimeline(); renderGrid(); }
+  else {
+    notes[currentCell].shift(); // 回滚
+    if (!notes[currentCell].length) delete notes[currentCell];
+    if (res === 'auth') {
+      localStorage.removeItem('gh_token');
+      alert('token 无效或没有 Contents 读写权限，已清除，请重试并粘贴正确的 token');
+    } else alert('保存失败，检查网络后重试');
   }
-  else alert('保存失败，检查网络后重试');
 }
 
-async function deleteNote(){
-  if (!notes[currentCell]) { closeModal(); return; }
-  if (!confirm('确定删除这格的文字吗？')) return;
-  const token = getToken();
-  if (!token) return;
-  delete notes[currentCell];
-  const res = await pushNotes(token);
-  if (res === 'ok') { renderGrid(); closeModal(); }
-  else if (res === 'auth') {
-    localStorage.removeItem('gh_token');
-    alert('token 无效或没有 Contents 读写权限，已清除，请重试');
+function delEntry(idx){
+  if (pendingDel !== idx) {
+    pendingDel = idx;
+    refreshTimeline();
+    setTimeout(() => {
+      if (pendingDel === idx) {
+        pendingDel = -1;
+        if (document.getElementById('modal').classList.contains('open')) refreshTimeline();
+      }
+    }, 3000);
+    return;
   }
-  else alert('删除失败，检查网络后重试');
+  pendingDel = -1;
+  doDelete(idx);
+}
+
+async function doDelete(idx){
+  const token = getToken();
+  if (!token) { refreshTimeline(); return; }
+  const list = notes[currentCell];
+  if (!list || !list[idx]) { refreshTimeline(); return; }
+  const removed = list.splice(idx, 1)[0];
+  if (!list.length) delete notes[currentCell];
+  const res = await pushNotes(token);
+  if (res === 'ok') { refreshTimeline(); renderGrid(); }
+  else {
+    if (!notes[currentCell]) notes[currentCell] = [];
+    notes[currentCell].splice(Math.min(idx, notes[currentCell].length), 0, removed);
+    if (res === 'auth') {
+      localStorage.removeItem('gh_token');
+      alert('token 无效或没有 Contents 读写权限，已清除，请重试');
+    } else alert('删除失败，检查网络后重试');
+  }
 }
 
 function closeModal(){ document.getElementById('modal').classList.remove('open'); }
